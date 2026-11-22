@@ -1,11 +1,19 @@
-
 import java.util.*;
+import java.sql.Connection;
 
 public class Main {
 
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        // 1. Database Connection Check - DSA Project + Oracle
+        Connection con = DatabaseConnection.getConnection();
+        if (con == null) {
+            System.out.println("Warning: Database not connected. Program will run in memory mode.");
+        } else {
+            System.out.println("Oracle Database is Connected. Welcome!");
+        }
 
         ProductManager productManager = new ProductManager();
         InventoryManager inventoryManager =
@@ -40,6 +48,14 @@ public class Main {
 
                 case 4:
                     System.out.println("Thank you for using Smart Shop!");
+                    // Close Database Connection
+                    try {
+                        if (con != null) {
+                            con.close();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error closing connection: " + e.getMessage());
+                    }
                     break;
 
                 default:
